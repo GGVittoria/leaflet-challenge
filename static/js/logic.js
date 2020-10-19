@@ -1,10 +1,10 @@
-// create a map object
-var myMap = L.map("map", {
-    center: [39, -98],
-    zoom: 5
-});
+// Create map
+var myMap = L.map("mapid", {
+    center: [37.09, -95.71],
+      zoom: 5
+    });
 
-// add tile layer
+// Adding tile layer to the map
 L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
   attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
   tileSize: 512,
@@ -14,7 +14,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   accessToken: API_KEY
 }).addTo(myMap);
 
-// api call to get geo json data on earthquakes
+// API call to get geo json data on earthquakes
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson").then(createMarkers);
 
 // function to create markers
@@ -30,7 +30,7 @@ function createMarkers(response) {
         var color = "";
         var depth = response.features[i].geometry.coordinates[2];
         if (depth < 5) {
-            color = "green";
+            color = "blue";
         }
 
         else if (depth < 10) {
@@ -38,14 +38,14 @@ function createMarkers(response) {
         }
 
         else if (depth < 20) {
-            color = "orange";
+            color = "pink";
         }
 
         else {
             color = "red";
         }
 
-        // add circles to the map
+        // Add circles to the map
         var mag = response.features[i].properties.mag;
         var lat = response.features[i].geometry.coordinates[1];
         var lon = response.features[i].geometry.coordinates[0];
@@ -56,7 +56,7 @@ function createMarkers(response) {
             color: "black",
             fillColor: color,
             radius: mag * 25000
-        }).bindPopup("<h2>" + place + "</h2><h2>Magnitude: " + mag + "</h2>")
+        }).bindPopup("<h3>" + place + "</h3><h3>Magnitude: " + mag + "</h3>")
             .addTo(myMap);
 
     }
@@ -64,9 +64,9 @@ function createMarkers(response) {
     // add legend
 
     function getColor(d) {
-        return  d < 5 ? "green":
+        return  d < 5 ? "blue":
                 d < 10 ? "yellow":
-                d < 20 ? "orange":
+                d < 20 ? "pink":
                         "red"; 
     }
     
