@@ -38,6 +38,10 @@ function createMarkers(response) {
         }
 
         else if (depth < 20) {
+            color = "orange";
+        }
+
+        else if (depth < 30) {
             color = "red";
         }
 
@@ -66,7 +70,8 @@ function createMarkers(response) {
     function getColor(d) {
         return  d < 5 ? "green":
                 d < 10 ? "yellow":
-                d < 20 ? "red":
+                d < 20 ? "orange":
+                d < 30 ? "red":                
                         "purple"; 
     }
     
@@ -75,7 +80,7 @@ function createMarkers(response) {
     legend.onAdd = function(myMap) {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 5, 10, 20],
+            grades = [-5, 5, 10, 20, 30],
             labels = [];
 
         for (var i = 0; i < grades.length; i++) {
