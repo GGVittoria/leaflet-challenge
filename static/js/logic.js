@@ -1,8 +1,8 @@
 // Create map
 var myMap = L.map("mapid", {
-    center: [37.09, -95.71],
-      zoom: 5
-    });
+    center: [39, -98],
+    zoom: 5
+});
 
 // Adding tile layer to the map
 L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -17,20 +17,20 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 // API call to get geo json data on earthquakes
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson").then(createMarkers);
 
-// function to create markers
+// Function to create multiple markers
 function createMarkers(response) {
     
     // console the response 
     console.log(response.features);
     
-    // loop through earthquakes and create markers
+    // Loop through earthquakes and create markers
     for (var i = 0; i < response.features.length; i++) {
 
-        // conditionals for color of circle based on depth
+        // Set color of circle based on depth
         var color = "";
         var depth = response.features[i].geometry.coordinates[2];
         if (depth < 5) {
-            color = "blue";
+            color = "green";
         }
 
         else if (depth < 10) {
@@ -38,11 +38,11 @@ function createMarkers(response) {
         }
 
         else if (depth < 20) {
-            color = "pink";
+            color = "red";
         }
 
         else {
-            color = "red";
+            color = "purple";
         }
 
         // Add circles to the map
@@ -61,22 +61,21 @@ function createMarkers(response) {
 
     }
 
-    // add legend
+    //Map legend
 
     function getColor(d) {
-        return  d < 5 ? "blue":
+        return  d < 5 ? "green":
                 d < 10 ? "yellow":
-                d < 20 ? "pink":
-                        "red"; 
+                d < 20 ? "red":
+                        "purple"; 
     }
     
-    
-    var legend = L.control({position: 'bottomright'});
+        var legend = L.control({position: 'bottomright'});
 
     legend.onAdd = function(myMap) {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            grades = [-5, 5, 10, 20],
+            grades = [0, 5, 10, 20],
             labels = [];
 
         for (var i = 0; i < grades.length; i++) {
